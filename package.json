@@ -1,0 +1,39 @@
+{
+  "name": "@service-broker/test-utils",
+  "version": "1.0.0",
+  "description": "Unit testing utility",
+  "keywords": [
+    "unit-testing",
+    "testing",
+    "test",
+    "javascript-testing",
+    "node-testing",
+    "test-framework",
+    "assertions",
+    "test-runner",
+    "javascript",
+    "nodejs"
+  ],
+  "homepage": "https://github.com/service-broker/test-utils#readme",
+  "bugs": {
+    "url": "https://github.com/service-broker/test-utils/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/service-broker/test-utils.git"
+  },
+  "license": "MIT",
+  "author": "Hai Phan <hai.phan@gmail.com>",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.12",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "yoctocolors": "^2.1.1"
+  }
+}

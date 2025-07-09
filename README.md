@@ -69,7 +69,7 @@ expect(request, {
 })
 ```
 
-Using _expect_ inside _describe_/_test_ results in nicely color-coded console outputs with ACTUAL vs EXPECTED values, the path to the nested object property where the assertion fails, along with the failure message and stack trace.
+Using _expect_ inside _describe-test_ results in nicely color-coded console outputs.
 
 ```
 EXPECT {

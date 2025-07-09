@@ -2,8 +2,9 @@
   "compilerOptions": {
     "module": "nodenext",
     "target": "es2020",
-    "strict": true,
     "moduleResolution": "nodenext",
+    "strict": true,
+    "declaration": true,
     "newLine": "LF",
     "rootDir": "src",
     "outDir": "dist"

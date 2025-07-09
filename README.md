@@ -22,20 +22,20 @@ describe('test-suite', ({ beforeAll, afterAll, beforeEach, afterEach, test }) =>
 
 When `expectedValue` is a:
 - Primitive: `actual` must be primitive and strictly equal
-- Set: `actual` must be a Set and contain strictly the same elements
-- Map: `actual` must be a Map and each key mapped to values that are _expect_ed to be equal
-- Array: `actual` must be an array with pair-wise elements _expect_ed to be equal
+- Set: `actual` must be a Set containing strictly the same elements
+- Map: `actual` must be a Map with the same keys mapped to _expect_-ed values
+- Array: `actual` must be an array with pair-wise _expect_-ed elements
 - Buffer: `actual` must be a Buffer with the exact same bytes
-- Object: `actual` must be an object with each property value _expect_ed to be equal
+- Object: `actual` must be an object with _expect_-ed property values
 
-`expectedValue` can be an `Expectation` object that defines custom rules. For example:
+`expectedValue` can also be an `Expectation` object that defines custom assertions. For example:
 
 ```typescript
 import { Expectation } from '@service-broker/test-utils'
 
 expect(actual, new Expectation('lessThan', 10, actual => {
   if (typeof actual != 'number') throw 'isNotNumber'
-  if (actual >= 10) throw 'isNotLessThan10')
+  if (actual >= 10) throw 'isNotLessThan10'
 })
 ```
 
@@ -52,7 +52,7 @@ expect(request, {
 })
 ```
 
-It's useful to define common expectation 'helpers'. These helpers are included in the library:
+It's useful to define common expectation 'helpers'. The following helpers are included with the library:
 
 ```typescript
 import { objectHaving, valueOfType, oneOf } from '@service-broker/test-utils'
@@ -61,7 +61,7 @@ expect(request, {
   id: valueOfType('number'),
   ip: oneOf(['::1', '127.0.0.1']),
   headers: objectHaving({
-    'content-type': 'image/png',
+    'content-type': 'application/json',
     'content-length': new Expectation('lessThan', '1MB', actual => {
       assert(actual < 1024*1024, 'requestTooLarge')
     })
@@ -69,7 +69,7 @@ expect(request, {
 })
 ```
 
-Using _expect_ inside _describe_/_test_ results in nicely color-coded console outputs with EXPECT vs ACTUAL value inspection, the path to the nested object property where the assertion fails, along with the failure message and stack trace.
+Using _expect_ inside _describe_/_test_ results in nicely color-coded console outputs with ACTUAL vs EXPECTED values, the path to the nested object property where the assertion fails, along with the failure message and stack trace.
 
 ```
 EXPECT {
@@ -105,5 +105,5 @@ Error: .header.service.name !equalExpected
 Once you define your tests inside a file, run it like a regular Node script.
 
 ```
-node --enable-source-maps ./dist/index.test.js
+node --enable-source-maps ./dist/index.test.js [suite name] [test name]
 ```

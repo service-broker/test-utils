@@ -19,6 +19,7 @@ interface Suite {
 
 const suites: Suite[] = []
 const scheduleRun = lazy(() => setTimeout(run, 0))
+const runAfterEverything: Function[] = []
 
 export function describe(
   suiteName: string,
@@ -49,6 +50,10 @@ export function describe(
   scheduleRun()
 }
 
+export function afterEverything(run: Function) {
+  runAfterEverything.push(run)
+}
+
 
 
 class FailedExpectation {
@@ -64,19 +69,26 @@ async function run() {
   const testName = process.argv[3]
   const suitesToRun = suiteName ? suites.filter(x => x.name == suiteName) : suites
   try {
-    for (const suite of suitesToRun) {
-      const testsToRun = testName ? suite.tests.filter(x => x.name == testName) : suite.tests
-      for (const run of suite.beforeAll) await run()
-      for (const test of testsToRun) {
-        for (const run of suite.beforeEach) await run()
+    try {
+      for (const suite of suitesToRun) {
+        const testsToRun = testName ? suite.tests.filter(x => x.name == testName) : suite.tests
+        for (const run of suite.beforeAll) await run()
         try {
-          console.log("Running test '%s' '%s'", suite.name, test.name)
-          await test.run()
+          for (const test of testsToRun) {
+            for (const run of suite.beforeEach) await run()
+            try {
+              console.log("Running test '%s' '%s'", suite.name, test.name)
+              await test.run()
+            } finally {
+              for (const run of suite.afterEach) await run()
+            }
+          }
         } finally {
-          for (const run of suite.afterEach) await run()
+          for (const run of suite.afterAll) await run()
         }
       }
-      for (const run of suite.afterAll) await run()
+    } finally {
+      for (const run of runAfterEverything) await run()
     }
   } catch (err) {
     if (err instanceof FailedExpectation) {
@@ -87,7 +99,7 @@ async function run() {
     } else {
       console.error(err)
     }
-  }
+  } 
 }
 
 

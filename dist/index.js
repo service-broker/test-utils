@@ -4,6 +4,7 @@ import { green, red, yellowBright } from "yoctocolors";
 import { assertRecord, lazy } from "./util.js";
 const suites = [];
 const scheduleRun = lazy(() => setTimeout(run, 0));
+const runAfterEverything = [];
 export function describe(suiteName, setup) {
     const suite = {
         name: suiteName,
@@ -23,6 +24,9 @@ export function describe(suiteName, setup) {
     suites.push(suite);
     scheduleRun();
 }
+export function afterEverything(run) {
+    runAfterEverything.push(run);
+}
 class FailedExpectation {
     constructor(reason, path = []) {
         this.reason = reason;
@@ -34,23 +38,33 @@ async function run() {
     const testName = process.argv[3];
     const suitesToRun = suiteName ? suites.filter(x => x.name == suiteName) : suites;
     try {
-        for (const suite of suitesToRun) {
-            const testsToRun = testName ? suite.tests.filter(x => x.name == testName) : suite.tests;
-            for (const run of suite.beforeAll)
-                await run();
-            for (const test of testsToRun) {
-                for (const run of suite.beforeEach)
+        try {
+            for (const suite of suitesToRun) {
+                const testsToRun = testName ? suite.tests.filter(x => x.name == testName) : suite.tests;
+                for (const run of suite.beforeAll)
                     await run();
                 try {
-                    console.log("Running test '%s' '%s'", suite.name, test.name);
-                    await test.run();
+                    for (const test of testsToRun) {
+                        for (const run of suite.beforeEach)
+                            await run();
+                        try {
+                            console.log("Running test '%s' '%s'", suite.name, test.name);
+                            await test.run();
+                        }
+                        finally {
+                            for (const run of suite.afterEach)
+                                await run();
+                        }
+                    }
                 }
                 finally {
-                    for (const run of suite.afterEach)
+                    for (const run of suite.afterAll)
                         await run();
                 }
             }
-            for (const run of suite.afterAll)
+        }
+        finally {
+            for (const run of runAfterEverything)
                 await run();
         }
     }

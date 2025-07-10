@@ -5,6 +5,7 @@ export declare function describe(suiteName: string, setup: (opts: {
     afterEach: (run: Function) => void;
     test: (name: string, run: Function) => void;
 }) => void): void;
+export declare function afterEverything(run: Function): void;
 export declare class Expectation {
     constructor(operator: string, expected: unknown, assert: (actual: unknown) => void);
 }

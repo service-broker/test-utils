@@ -66,6 +66,7 @@ async function run() {
         finally {
             for (const run of runAfterEverything)
                 await run();
+            console.log("Finished.");
         }
     }
     catch (err) {

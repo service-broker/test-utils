@@ -1,6 +1,6 @@
 {
   "name": "@service-broker/test-utils",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Unit testing utility",
   "keywords": [
     "unit-testing",

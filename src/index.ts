@@ -89,8 +89,8 @@ async function run() {
       }
     } finally {
       for (const run of runAfterEverything) await run()
-      console.log("Finished.")
     }
+    console.log("Finished.")
   } catch (err) {
     if (err instanceof FailedExpectation) {
       if (err.expected) console.error(red('EXPECT'), util.inspect(err.expected, { depth: Infinity }))

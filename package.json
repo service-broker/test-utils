@@ -1,6 +1,6 @@
 {
   "name": "@service-broker/test-utils",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "Unit testing utility",
   "keywords": [
     "unit-testing",
@@ -30,10 +30,10 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "@types/node": "^24.0.12",
-    "typescript": "^5.8.3"
+    "@types/node": "^24.3.1",
+    "typescript": "^5.9.2"
   },
   "dependencies": {
-    "yoctocolors": "^2.1.1"
+    "yoctocolors": "^2.1.2"
   }
 }

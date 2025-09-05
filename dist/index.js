@@ -71,8 +71,7 @@ async function run() {
     }
     catch (err) {
         if (err instanceof FailedExpectation) {
-            if (err.expected)
-                console.error(red('EXPECT'), util.inspect(err.expected, { depth: Infinity }));
+            console.error(red('EXPECT'), util.inspect(err.expected, { depth: Infinity }));
             console.error(green('ACTUAL'), util.inspect(err.actual, { depth: Infinity }));
             console.error('Error:', yellowBright('.' + err.path.join('.') + ' ' + err.reason));
             console.error(err.stack?.replace(/^Error\n/, ''));

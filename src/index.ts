@@ -106,7 +106,7 @@ async function run() {
 
 
 export class Expectation {
-  constructor(operator: string, expected: unknown, assert: (actual: unknown) => void) {
+  constructor(operator: string, expected: unknown, assert: (actual: unknown) => void | undefined) {
     Object.defineProperty(this, operator, { value: expected, enumerable: true })
     Object.defineProperty(this, 'assert', { value: assert })
   }

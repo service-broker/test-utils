@@ -7,7 +7,7 @@ export declare function describe(suiteName: string, setup: (opts: {
 }) => void): void;
 export declare function afterEverything(run: Function): void;
 export declare class Expectation {
-    constructor(operator: string, expected: unknown, assert: (actual: unknown) => void);
+    constructor(operator: string, expected: unknown, assert: (actual: unknown) => void | undefined);
 }
 export declare function expect(actual: unknown, expected: unknown, path?: string[]): void;
 export declare function objectHaving(expectedProps: Record<string, unknown>): Expectation;
